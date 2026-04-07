@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Secreto Para Ti ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap');
+
+        :root {
+            --bg-global: #0d0d0d;
+            --bg-card: #1a1a1a;
+            --text-light: #f0f0f0;
+            --primary-red: #ff2244;
+            --heart-white: #ffffff;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-global);
+            font-family: 'Patrick Hand', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+        }
+
+        /* ---- PANTALLA 1 ---- */
+        #intro-screen {
+            text-align: center;
+            background: var(--bg-card);
+            padding: 50px 45px;
+            border-radius: 24px;
+            border: 2px solid #2e2e2e;
+            box-shadow: 0 0 40px rgba(255, 34, 68, 0.15);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+            z-index: 20;
+            position: relative;
+            max-width: 420px;
+            width: 90%;
+        }
+
+        #intro-screen.hidden {
+            opacity: 0;
+            transform: scale(0.4) rotateX(80deg);
+            pointer-events: none;
+        }
+
+        #intro-screen h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 2.4rem;
+            margin: 0 0 10px;
+            color: var(--text-light);
+        }
+
+        p.intro-text {
+            color: #999;
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .btn-magic {
+            background-color: transparent;
+            color: var(--primary-red);
+            border: 3px solid var(--primary-red);
+            padding: 16px 36px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 12px rgba(255, 34, 68, 0.25);
+        }
+
+        .btn-magic:hover {
+            background-color: var(--primary-red);
+            color: white;
+            box-shadow: 0 0 30px var(--primary-red);
+            transform: scale(1.07);
+        }
+
+        /* ---- PANTALLA 2 ---- */
+        #final-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(80px) scale(0.85);
+            transition: opacity 1.4s ease 0.8s, transform 1.4s ease 0.8s;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        #final-screen.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .flork-scene {
+            position: relative;
+            width: 360px;
+            max-width: 92vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cartel que sostiene el Flork */
+        .giant-sign {
+            background: #fffef5;
+            color: #111;
+            padding: 28px 30px 22px;
+            border-radius: 14px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.7), inset 0 0 0 4px #ddd;
+            border: 5px solid #111;
+            text-align: center;
+            width: 100%;
+            animation: signWobble 3.5s infinite ease-in-out;
+            position: relative;
+            z-index: 2;
+            /* Pinches de papel en las esquinas */
+        }
+
+        .giant-sign::before, .giant-sign::after {
+            content: '📌';
+            position: absolute;
+            top: -14px;
+            font-size: 1.4rem;
+        }
+        .giant-sign::before { left: 14px; }
+        .giant-sign::after  { right: 14px; transform: scaleX(-1); }
+
+        .giant-sign .line-small {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.15rem;
+            color: #444;
+            margin: 6px 0;
+        }
+
+        .giant-sign .main-message {
+            font-family: 'Caveat', cursive;
+            color: var(--primary-red);
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin: 10px 0;
+        }
+
+        .giant-sign .firma {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: #222;
+            margin-top: 8px;
+        }
+
+        /* Palito conectando cartel con Flork */
+        .stick-connector {
+            width: 6px;
+            height: 28px;
+            background: #555;
+            border-radius: 3px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        /* SVG Flork */
+        .flork-svg {
+            margin-top: -6px;
+            filter: drop-shadow(0 6px 16px rgba(0,0,0,0.5));
+        }
+
+        @keyframes signWobble {
+            0%, 100% { transform: rotate(-1.5deg) translateY(0); }
+            50%       { transform: rotate(1.2deg) translateY(-5px); }
+        }
+
+        /* ---- CORAZONES ---- */
+        .heart {
+            position: fixed;
+            user-select: none;
+            pointer-events: none;
+            animation: moveHeart linear forwards;
+            opacity: 0;
+            z-index: 999;
+            line-height: 1;
+        }
+
+        @keyframes moveHeart {
+            0%   { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-115vh) rotate(var(--rot)) scale(var(--sc)); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ===== PANTALLA 1 ===== -->
+<div id="intro-screen">
+
+    <!-- Flork estilo fiel: cuerpo blob oval, puntitos de ojos, piernas palito -->
+    <svg width="160" height="200" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto 20px;">
+        <!-- Cuerpo+cabeza: gran blob oval aplanado abajo -->
+        <path d="M80 10 C38 10 18 36 18 72 C18 108 38 128 80 128 C122 128 142 108 142 72 C142 36 122 10 80 10 Z" fill="white" stroke="#111" stroke-width="4.5"/>
+        <!-- Ojo izquierdo: puntito -->
+        <ellipse cx="64" cy="65" rx="4" ry="5" fill="#111"/>
+        <!-- Ojo derecho: puntito -->
+        <ellipse cx="96" cy="65" rx="4" ry="5" fill="#111"/>
+        <!-- Sonrisa suave -->
+        <path d="M68 88 Q80 98 92 88" stroke="#111" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- Brazo derecho: saludando arriba en ángulo -->
+        <line x1="130" y1="82" x2="148" y2="44" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+        <!-- Mano saludando: deditos -->
+        <line x1="148" y1="44" x2="143" y2="30" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="148" y1="44" x2="150" y2="29" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="148" y1="44" x2="156" y2="32" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Brazo izquierdo: colgado natural -->
+        <line x1="30" y1="82" x2="14" y2="112" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+        <!-- Pierna izquierda: palito largo -->
+        <line x1="65" y1="127" x2="60" y2="190" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+        <!-- Pie izq -->
+        <path d="M60 190 Q52 193 48 190 Q50 186 60 188 Z" fill="#111"/>
+        <!-- Pierna derecha: palito largo -->
+        <line x1="95" y1="127" x2="100" y2="190" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+        <!-- Pie der -->
+        <path d="M100 190 Q108 193 112 190 Q110 186 100 188 Z" fill="#111"/>
+        <!-- Corazoncito pequeño -->
+        <path d="M74 104 Q77 100 80 104 Q83 100 86 104 Q86 110 80 115 Q74 110 74 104Z" fill="#ff2244"/>
+    </svg>
+
+    <h1>Oye tú... 👀</h1>
+    <p class="intro-text">
+        Tengo un secreto atrapado<br>
+        en este botón.
+    </p>
+    <button class="btn-magic" onclick="revealSecreto()">✨ Presiona para verlo ✨</button>
+</div>
+
+
+<!-- ===== PANTALLA 2 ===== -->
+<div id="final-screen">
+    <div class="flork-scene">
+
+        <!-- CARTEL -->
+        <div class="giant-sign">
+            <p class="line-small">🥺🫣🥺...</p>
+            <p class="line-small">Solo quería recordarte que...</p>
+            <p class="main-message">¡TE EXTRAÑO<br>MUCHÍSIMO! 💔</p>
+            <p class="line-small">Aun espero mi canción.</p>
+            <p class="firma">Con todo mi amor ❤️</p>
+        </div>
+
+        <!-- Palito entre cartel y flork -->
+        <div class="stick-connector"></div>
+
+       
+        <svg class="flork-svg" width="280" height="220" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            
+            <path d="M140 12 C90 12 64 42 64 82 C64 122 90 148 140 148 C190 148 216 122 216 82 C216 42 190 12 140 12 Z" fill="white" stroke="#111" stroke-width="5"/>
+            <!-- Ojo izquierdo -->
+            <ellipse cx="120" cy="75" rx="5" ry="6.5" fill="#111"/>
+            <!-- Ojo derecho -->
+            <ellipse cx="160" cy="75" rx="5" ry="6.5" fill="#111"/>
+            <!-- Cejas levantadas -->
+            <path d="M112 60 Q120 55 128 60" stroke="#111" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M152 60 Q160 55 168 60" stroke="#111" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <!-- Sonrisa grande xd -->
+            <path d="M116 100 Q140 122 164 100" stroke="#111" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <!-- Brazo izquierdo: levantado sosteniendo el cartel -->
+            <line x1="76" y1="95" x2="28" y2="48" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+            <!-- Mano izq -->
+            <ellipse cx="22" cy="43" rx="9" ry="7" fill="white" stroke="#111" stroke-width="4"/>
+            <!-- Brazo derecho: levantado sosteniendo el cartel -->
+            <line x1="204" y1="95" x2="252" y2="48" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+            <!-- Mano der -->
+            <ellipse cx="258" cy="43" rx="9" ry="7" fill="white" stroke="#111" stroke-width="4"/>
+            <!-- Pierna izquierda: palito largo -->
+            <line x1="120" y1="147" x2="108" y2="212" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+            <!-- Pie izq -->
+            <path d="M108 212 Q97 216 92 212 Q94 207 108 210 Z" fill="#111"/>
+            <!-- Pierna derecha: palito largo -->
+            <line x1="160" y1="147" x2="172" y2="212" stroke="#111" stroke-width="4.5" stroke-linecap="round"/>
+            <!-- Pie der -->
+            <path d="M172 212 Q183 216 188 212 Q186 207 172 210 Z" fill="#111"/>
+            <!-- Corazón en el pecho -->
+            <path d="M133 112 Q137 106 140 112 Q143 106 147 112 Q147 120 140 127 Q133 120 133 112Z" fill="#ff2244"/>
+        </svg>
+
+    </div>
+</div>
+
+
+<script>
+    function revealSecreto() {
+        document.getElementById('intro-screen').classList.add('hidden');
+        createStormOfLove();
+        setTimeout(() => {
+            document.getElementById('final-screen').classList.add('visible');
+        }, 700);
+    }
+
+    function createStormOfLove() {
+        // Explosión inicial
+        for (let i = 0; i < 70; i++) {
+            setTimeout(createSingleHeart, i * 10);
+        }
+        // Lluvia continua
+        setInterval(createSingleHeart, 45);
+    }
+
+    function createSingleHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+
+        const isRed = Math.random() > 0.35;
+        const redEmojis  = ['❤️','💖','💘','💗','♥️','💓'];
+        const whiteEmojis = ['🤍','💞','💟'];
+        const pool = isRed ? redEmojis : whiteEmojis;
+
+        heart.textContent = pool[Math.floor(Math.random() * pool.length)];
+
+        heart.style.left   = (Math.random() * 100) + 'vw';
+        heart.style.bottom = (Math.random() * 25 + 20) + 'vh';
+
+        const dur = (Math.random() * 2.5 + 1.5).toFixed(2);
+        heart.style.animationDuration = dur + 's';
+        heart.style.fontSize = (Math.random() * 24 + 14) + 'px';
+
+        heart.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+        heart.style.setProperty('--sc', (Math.random() * 0.6 + 0.9).toFixed(2));
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), (parseFloat(dur) + 0.2) * 1000);
+    }
+</script>
+</body>
+</html>
