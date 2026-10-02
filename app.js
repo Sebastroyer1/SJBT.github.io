@@ -178,7 +178,7 @@ document.querySelectorAll('[data-dodge]').forEach((button) => {
 
 function createHeartBurst(amount = 20) {
     const symbols = ['♥', '♡', '✦', '💗', '✨'];
-    const colors = ['#ff4f91', '#ff8eb8', '#b895ff', '#ffffff'];
+    const colors = ['#ff4f91', '#ff8eb8', '#59a9ff', '#bfe1ff', '#ffffff'];
     const total = prefersReducedMotion ? Math.min(5, amount) : amount;
 
     for (let index = 0; index < total; index += 1) {
